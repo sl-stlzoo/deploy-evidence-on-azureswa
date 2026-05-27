@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evidence.dev on Azure SWA: Walkthrough</title>
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#0ea5e9',
+                        dark: '#0f172a',
+                        light: '#f8fafc'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-light text-slate-800 antialiased min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+            <div class="flex items-center gap-3">
+                <img src="img/logo.png" alt="AZA IT Runbook Tiger Logo" class="h-10 w-10 object-contain drop-shadow-sm rounded bg-white">
+                <span class="font-bold text-xl tracking-tight text-slate-900">AZA Technology</span>
+            </div>
+            <nav class="hidden md:flex gap-6">
+                <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-primary transition-colors">Overview</a>
+                <a href="walkthrough.html" class="text-sm font-medium text-primary">Walkthrough</a>
+                <a href="https://github.com/sl-stlzoo/Deploy-Evidence-on-AzureSWA" target="_blank" class="text-sm font-medium text-slate-600 hover:text-primary transition-colors">GitHub</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-10 pb-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <!-- Page Header -->
+                <div class="bg-slate-50 border-b border-slate-200 p-8 sm:p-10">
+                    <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight mb-2">Walkthrough</h1>
+                    <p class="text-slate-600 text-lg">Here are the steps we'll walk through to deploy.</p>
+                </div>
+                
+                <!-- Content Stub / Outline -->
+                <div class="p-8 sm:p-10 space-y-12">
+                    
+                    <!-- Section 1 -->
+                    <section id="prerequisites">
+                        <h2 class="text-2xl font-bold text-slate-900 mb-4 border-b border-slate-100 pb-2">1. Prerequisites</h2>
+                        <div class="prose max-w-none text-slate-600">
+                            <p><em>Updated soon...</em></p>
+                        </div>
+                    </section>
+
+                    <!-- Section 2 -->
+                    <section id="step-1">
+                        <h2 class="text-2xl font-bold text-slate-900 mb-4 border-b border-slate-100 pb-2">2. Initializing Evidence.dev</h2>
+                        <div class="prose max-w-none text-slate-600">
+                            <p><em>Updated soon...</em></p>
+                        </div>
+                    </section>
+
+                    <!-- Section 3 -->
+                    <section id="step-2">
+                        <h2 class="text-2xl font-bold text-slate-900 mb-4 border-b border-slate-100 pb-2">3. Azure Static Web App Provisioning</h2>
+                        <div class="prose max-w-none text-slate-600">
+                            <p><em>Updated soon...</em></p>
+                        </div>
+                    </section>
+
+                    <!-- Section 4 -->
+                    <section id="step-3">
+                        <h2 class="text-2xl font-bold text-slate-900 mb-4 border-b border-slate-100 pb-2">4. GitHub Actions Workflow Structure</h2>
+                        <div class="prose max-w-none text-slate-600">
+                            <p><em>Updated soon...</em></p>
+                        </div>
+                    </section>
+                    
+                    <!-- Section 5 -->
+                    <section id="step-4">
+                        <h2 class="text-2xl font-bold text-slate-900 mb-4 border-b border-slate-100 pb-2">5. Securing with Microsoft Entra ID Authentication</h2>
+                        <div class="prose max-w-none text-slate-600">
+                            <p><em>Updated soon...</em></p>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+            
+            <!-- Floating Navigation (table of contents indicator) -->
+            <div class="mt-8 flex justify-between items-center text-sm font-medium">
+                <a href="index.html" class="text-slate-500 hover:text-primary transition-colors">&larr; Back to Overview</a>                
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-slate-400 py-10 mt-auto border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+            <div class="mb-4">
+                <a href="#" class="font-bold text-xl tracking-tight text-white">Runbook Code Club</a>
+            </div>
+            <p class="text-sm mb-4">Collaborative, technical professional development for AZA IT teams - let's go!</p>            
+        </div>
+    </footer>
+</body>
+</html>
