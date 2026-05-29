@@ -22,7 +22,7 @@ Write-Banner "Teardown Step 11 — Remove Entra App Registration"
 $envFilePath  = Resolve-Path $EnvFile
 $clientId     = Get-EnvOrDefault 'AAD_CLIENT_ID'   ''
 $appName      = Get-EnvOrDefault 'AAD_APP_NAME'    ''
-$githubRepo   = Get-EnvOrDefault 'GITHUB_REPO_URL' ''
+$githubRepo   = Get-EnvOrDefault 'REPO_URL' ''
 
 # ── Resolve client ID — try env first, fall back to display-name lookup ───────
 Write-Step "Locating app registration"
@@ -79,7 +79,7 @@ if ((Test-CommandExists 'gh') -and $githubRepo) {
         Write-Warn "Could not check/remove GitHub secret (non-fatal): $_"
     }
 } else {
-    Write-Info "gh CLI not available or GITHUB_REPO_URL not set — skipping."
+    Write-Info "gh CLI not available or REPO_URL not set — skipping."
     Write-Info "Remove the GitHub secret manually if needed:"
     Write-Info "  GitHub → repo → Settings → Secrets → AZURE_STATIC_WEB_APPS_API_TOKEN → Delete"
 }

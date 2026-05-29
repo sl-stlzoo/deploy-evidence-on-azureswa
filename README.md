@@ -157,7 +157,7 @@ Add these secrets:
 |`AZURE_RESOURCE_GROUP` |Your choice — will be created            |`rg-evidence-prod`                    |
 |`SWA_NAME`             |Your choice — must be globally unique    |`swa-evidence-prod`                   |
 |`AAD_APP_NAME`         |Your choice — display name only          |`evidence-swa-prod`                   |
-|`GITHUB_REPO_URL`      |This repository’s HTTPS URL              |`https://github.com/org/repo`         |
+|`REPO_URL`      |This repository’s HTTPS URL              |`https://github.com/org/repo`         |
 
 **Do NOT add these as Codespace secrets** — they are written automatically by
 the deploy scripts: `AAD_CLIENT_ID`, `AAD_CLIENT_SECRET`, `SWA_DEPLOYMENT_TOKEN`,
@@ -293,7 +293,7 @@ AZURE_LOCATION=         # e.g. eastus2
 AZURE_RESOURCE_GROUP=   # e.g. rg-evidence-prod
 SWA_NAME=               # globally unique, e.g. swa-evidence-prod
 AAD_APP_NAME=           # e.g. evidence-swa-prod
-GITHUB_REPO_URL=        # https://github.com/your-org/your-repo
+REPO_URL=        # https://github.com/your-org/your-repo
 ```
 
 Other values (client ID/secret, deployment token, hostname) are **written back
@@ -497,7 +497,7 @@ your-evidence-project/                          ← repository root
     │   │                                      Redirects 401/403 → Entra login.
     │   │
     │   ├── azure-static-web-apps          [C] GitHub Actions workflow template.
-    │   │     .yml.template                    Contains %%GITHUB_BRANCH%%
+    │   │     .yml.template                    Contains %%REPO_BRANCH%%
     │   │                                      placeholder substituted by step 3.
     │   │                                      Builds and deploys on push to main.
     │   │
@@ -576,9 +576,9 @@ git push
 |`AAD_CLIENT_SECRET`        |        |✅ step 2|Client secret (stored in .env only)              |
 |`EVIDENCE_ADMIN_USERS`     |        |        |Comma-separated UPNs for `evidence_admin` role   |
 |`EVIDENCE_ALLOWED_GROUP_ID`|        |        |Entra group OID — restricts to group members     |
-|`GITHUB_REPO_URL`          |✅       |        |`https://github.com/org/repo`                    |
-|`GITHUB_BRANCH`            |        |        |Default: `main`                                  |
-|`GITHUB_PAT`               |        |        |PAT for `gh secret set` (optional)               |
+|`REPO_URL`          |✅       |        |`https://github.com/org/repo`                    |
+|`REPO_BRANCH`            |        |        |Default: `main`                                  |
+|`GH_PAT`               |        |        |PAT for `gh secret set` (optional)               |
 |`NODE_VERSION`             |        |        |Default: `20`                                    |
 |`EVIDENCE_PROJECT_ROOT`    |        |        |Default: `..` (parent of `deploy/`)              |
 |`CUSTOM_DOMAIN_APEX`       |        |        |e.g. `example.com` (future use)                  |
@@ -710,7 +710,7 @@ The workflow triggers on every push to `main` and builds + deploys automatically
 
 The workflow needs `AZURE_STATIC_WEB_APPS_API_TOKEN` set as a repository secret.
 
-**Automatic** (if `gh` CLI is installed and `GITHUB_PAT` or `gh auth login` is done):  
+**Automatic** (if `gh` CLI is installed and `GH_PAT` or `gh auth login` is done):  
 Step 3 of the deployment sets it automatically.
 
 **Manual:**

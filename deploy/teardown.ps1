@@ -88,7 +88,7 @@ $resourceGroup = Get-EnvOrDefault 'AZURE_RESOURCE_GROUP'  '(not set)'
 $clientId      = Get-EnvOrDefault 'AAD_CLIENT_ID'         '(not set)'
 $appName       = Get-EnvOrDefault 'AAD_APP_NAME'          '(not set)'
 $hostname      = Get-EnvOrDefault 'SWA_DEFAULT_HOSTNAME'  '(not set)'
-$githubRepo    = Get-EnvOrDefault 'GITHUB_REPO_URL'       '(not set)'
+$githubRepo    = Get-EnvOrDefault 'REPO_URL'       '(not set)'
 
 Write-Host "  The following resources are targeted for removal:" -ForegroundColor Yellow
 Write-Host ""

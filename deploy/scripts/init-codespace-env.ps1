@@ -105,10 +105,10 @@ $variables = @(
        Hint='optional: Entra security group Object ID' }
 
     # ── GitHub ─────────────────────────────────────────────────────────────
-    @{ Key='GITHUB_REPO_URL';       Required=$true;  AutoSet=$false; Default='';        Secret=$false;
+    @{ Key='REPO_URL';       Required=$true;  AutoSet=$false; Default='';        Secret=$false;
        Hint='https://github.com/your-org/your-repo' }
 
-    @{ Key='GITHUB_BRANCH';         Required=$false; AutoSet=$false; Default='main';    Secret=$false;
+    @{ Key='REPO_BRANCH';         Required=$false; AutoSet=$false; Default='main';    Secret=$false;
        Hint='branch to deploy from' }
 
     # ── Evidence.dev build ─────────────────────────────────────────────────
@@ -207,7 +207,7 @@ $sections = [ordered]@{
     'Azure Subscription & Identity' = @('AZURE_SUBSCRIPTION_ID','AZURE_TENANT_ID','AZURE_LOCATION','AZURE_RESOURCE_GROUP','AZURE_RESOURCE_TAGS')
     'Azure Static Web App'          = @('SWA_NAME','SWA_SKU','SWA_DEPLOYMENT_TOKEN','SWA_DEFAULT_HOSTNAME')
     'Entra ID App Registration'     = @('AAD_APP_NAME','AAD_CLIENT_ID','AAD_CLIENT_SECRET','EVIDENCE_ADMIN_USERS','EVIDENCE_ALLOWED_GROUP_ID')
-    'GitHub'                        = @('GITHUB_REPO_URL','GITHUB_BRANCH')
+    'GitHub'                        = @('REPO_URL','REPO_BRANCH')
     'Evidence.dev Build'            = @('NODE_VERSION','EVIDENCE_PROJECT_ROOT')
     'Custom Domain (future)'        = @('CUSTOM_DOMAIN_APEX','CUSTOM_DOMAIN_SUBDOMAIN','CUSTOM_DOMAIN')
 }

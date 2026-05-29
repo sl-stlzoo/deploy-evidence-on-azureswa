@@ -9,11 +9,11 @@ name: Azure Static Web Apps — Evidence.dev
 on:
   push:
     branches:
-      - %%GITHUB_BRANCH%%
+      - %%REPO_BRANCH%%
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
-      - %%GITHUB_BRANCH%%
+      - %%REPO_BRANCH%%
 
 jobs:
   build_and_deploy:

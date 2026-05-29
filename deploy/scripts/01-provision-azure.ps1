@@ -29,8 +29,8 @@ $location       = Require-EnvVar 'AZURE_LOCATION'
 $resourceGroup  = Require-EnvVar 'AZURE_RESOURCE_GROUP'
 $swaName        = Require-EnvVar 'SWA_NAME'
 $swaSku         = Get-EnvOrDefault 'SWA_SKU' 'Standard'
-$githubRepoUrl  = Require-EnvVar 'GITHUB_REPO_URL'
-$githubBranch   = Get-EnvOrDefault 'GITHUB_BRANCH' 'main'
+$githubRepoUrl  = Require-EnvVar 'REPO_URL'
+$githubBranch   = Get-EnvOrDefault 'REPO_BRANCH' 'main'
 $envFilePath    = Resolve-Path $EnvFile
 
 # ── Set active subscription ───────────────────────────────────────────────────

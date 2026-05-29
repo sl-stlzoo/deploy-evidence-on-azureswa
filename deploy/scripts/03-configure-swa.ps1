@@ -44,8 +44,8 @@ $swaHostname   = Require-EnvVar 'SWA_DEFAULT_HOSTNAME' `
     -Hint "Run 01-provision-azure.ps1 first."
 $deployToken   = Require-EnvVar 'SWA_DEPLOYMENT_TOKEN' `
     -Hint "Run 01-provision-azure.ps1 first."
-$githubBranch  = Get-EnvOrDefault 'GITHUB_BRANCH' 'main'
-$githubRepo    = Get-EnvOrDefault 'GITHUB_REPO_URL' ''
+$githubBranch  = Get-EnvOrDefault 'REPO_BRANCH' 'main'
+$githubRepo    = Get-EnvOrDefault 'REPO_URL' ''
 $envFilePath   = Resolve-Path $EnvFile
 
 $adminUsers    = Get-EnvOrDefault 'EVIDENCE_ADMIN_USERS' ''
@@ -135,7 +135,7 @@ if (Test-Path $workflowTemplatePath) {
     New-Item -ItemType Directory -Path $workflowDir -Force | Out-Null
 
     $wfContent = Get-Content $workflowTemplatePath -Raw
-    $wfContent  = $wfContent -replace '%%GITHUB_BRANCH%%', $githubBranch
+    $wfContent  = $wfContent -replace '%%REPO_BRANCH%%', $githubBranch
 
     $wfContent | Set-Content -Path $workflowPath -Encoding UTF8
     Write-OK "Workflow written to: $workflowPath"
@@ -152,7 +152,7 @@ if (-not (Test-CommandExists 'gh')) {
     Write-Info  "  Name:  AZURE_STATIC_WEB_APPS_API_TOKEN"
     Write-Info  "  Value: (the SWA_DEPLOYMENT_TOKEN from your .env file)"
 } elseif (-not $githubRepo) {
-    Write-Warn "GITHUB_REPO_URL not set — skipping secret registration."
+    Write-Warn "REPO_URL not set — skipping secret registration."
 } else {
     # Extract owner/repo from URL
     $repoRef = $githubRepo -replace 'https://github.com/', '' -replace '\.git$', ''
