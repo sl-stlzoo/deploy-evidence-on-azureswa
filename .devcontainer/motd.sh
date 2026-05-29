@@ -3,6 +3,8 @@
 # .devcontainer/motd.sh — Message of the day (postStartCommand)
 # Shown in the terminal on every codespace start/resume.
 # =============================================================================
+set +e || true
+
 CYAN='\033[0;36m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -28,7 +30,7 @@ fi
 
 # ── Check .env ────────────────────────────────────────────────────────────────
 if [[ -f "deploy/.env" ]]; then
-  MISSING=$(grep -E '^[A-Z_]+=\s*$' deploy/.env | grep -v '^SWA_DEPLOYMENT_TOKEN\|^SWA_DEFAULT_HOSTNAME\|^AAD_CLIENT_ID\|^AAD_CLIENT_SECRET' | cut -d= -f1 | tr '\n' ' ' || true)
+  MISSING=$(grep -E '^[A-Z_]+=[ \t]*$' deploy/.env 2>/dev/null | grep -v -E '^(SWA_DEPLOYMENT_TOKEN|SWA_DEFAULT_HOSTNAME|AAD_CLIENT_ID|AAD_CLIENT_SECRET)' | cut -d= -f1 | tr '\n' ' ' || true)
   if [[ -n "$MISSING" ]]; then
     warn "deploy/.env is missing values for: $MISSING"
     info "  Edit:  code deploy/.env"
@@ -45,3 +47,4 @@ info "Deploy:    pwsh ./deploy/deploy.ps1"
 info "Teardown:  pwsh ./deploy/teardown.ps1"
 info "Docs:      deploy/README.md"
 echo ""
+exit 0

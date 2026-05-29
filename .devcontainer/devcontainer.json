@@ -96,11 +96,6 @@
         // DuckDB Driver for SQLTools - Official Evidence.dev supported driver
         "evidence.sqltools-duckdb-driver",
 
-        // DBCode — full-featured database client with first-class DuckDB support.
-        // Connect to .db files directly, run SQL, browse schemas, export results.
-        // Works against the DuckDB files Evidence.dev creates in .evidence/cache/.
-        "DBCode.dbcode",
-
         // Parquet Explorer — view .parquet files as a table directly in VS Code.
         // Evidence.dev caches source data as parquet in .evidence/cache/; this
         // makes those files inspectable without leaving the editor.
