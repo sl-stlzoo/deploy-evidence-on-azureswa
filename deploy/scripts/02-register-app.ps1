@@ -8,7 +8,7 @@
 # Secret rotation: a new secret is only generated if AAD_CLIENT_SECRET is blank.
 # =============================================================================
 param(
-    [string]$EnvFile = "$PSScriptRoot\..\..env"
+    [string]$EnvFile = "$PSScriptRoot\..\.env"
 )
 
 . "$PSScriptRoot\helpers.ps1"

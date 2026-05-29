@@ -9,7 +9,7 @@
 #   5. Optionally registers SWA deployment token as a GitHub Actions secret
 # =============================================================================
 param(
-    [string]$EnvFile = "$PSScriptRoot\..\..env"
+    [string]$EnvFile = "$PSScriptRoot\..\.env"
 )
 
 . "$PSScriptRoot\helpers.ps1"

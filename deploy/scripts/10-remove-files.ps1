@@ -11,7 +11,7 @@
 # Idempotency: silently skips any file/directory that no longer exists.
 # =============================================================================
 param(
-    [string]$EnvFile = "$PSScriptRoot\..\..env",
+    [string]$EnvFile = "$PSScriptRoot\..\.env",
     [switch]$Force   # Skip per-item confirmation prompts
 )
 

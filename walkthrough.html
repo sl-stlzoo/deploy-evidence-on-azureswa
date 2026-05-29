@@ -60,7 +60,18 @@
                     <section id="prerequisites">
                         <h2 class="text-2xl font-bold text-slate-900 mb-4 border-b border-slate-100 pb-2">1. Prerequisites</h2>
                         <div class="prose max-w-none text-slate-600">
-                            <p><em>Updated soon...</em></p>
+                            <p>For this workshop, the recommended environment is a GitHub Codespace. This eliminates the need to install local tooling like Node.js, Azure CLI, or the SWA CLI.</p>
+                            <p>Before launching the environment, you must configure GitHub Codespace secrets in your repository settings:</p>
+                            <ul>
+                                <li><strong>AZURE_SUBSCRIPTION_ID</strong>: Your Azure Subscription UUID.</li>
+                                <li><strong>AZURE_TENANT_ID</strong>: Your Microsoft Entra ID Tenant UUID.</li>
+                                <li><strong>AZURE_LOCATION</strong>: Target Azure region for deployment (e.g., <code>eastus2</code>).</li>
+                                <li><strong>AZURE_RESOURCE_GROUP</strong>: Name for the resource group to create.</li>
+                                <li><strong>SWA_NAME</strong>: A globally unique name for your Static Web App.</li>
+                                <li><strong>AAD_APP_NAME</strong>: A display name for your Entra App Registration.</li>
+                                <li><strong>REPO_URL</strong>: The HTTPS URL of this repository.</li>
+                            </ul>
+                            <p>You also need an active Azure Pay-As-You-Go subscription with <code>Contributor</code> access, and <code>Application Administrator</code> privileges in your Entra ID tenant to create app registrations.</p>
                         </div>
                     </section>
 
@@ -68,7 +79,14 @@
                     <section id="step-1">
                         <h2 class="text-2xl font-bold text-slate-900 mb-4 border-b border-slate-100 pb-2">2. Initializing Evidence.dev</h2>
                         <div class="prose max-w-none text-slate-600">
-                            <p><em>Updated soon...</em></p>
+                            <p>Instead of committing the Evidence.dev template directly to our repository, we pull it down dynamically. When the Codespace starts, a lifecycle script (<code>post-create.sh</code>) automates the scaffolding process:</p>
+                            <ol>
+                                <li>Calls <code>degit</code> to clone the base Evidence.dev template dynamically, ignoring Git history.</li>
+                                <li>Runs <code>npm install</code> to fetch all required Evidence dependencies.</li>
+                                <li>Installs Azure tooling (SWA CLI and Azure CLI extension) inside the Codespace.</li>
+                                <li>Maps your GitHub Codespace secrets into a <code>deploy/.env</code> file to prepare the automation pipeline.</li>
+                            </ol>
+                            <p>This approach ensures you always launch with the latest Evidence.dev framework without polluting your repository with upstream boilerplate.</p>
                         </div>
                     </section>
 
@@ -76,7 +94,14 @@
                     <section id="step-2">
                         <h2 class="text-2xl font-bold text-slate-900 mb-4 border-b border-slate-100 pb-2">3. Azure Static Web App Provisioning</h2>
                         <div class="prose max-w-none text-slate-600">
-                            <p><em>Updated soon...</em></p>
+                            <p>To deploy the app, you will execute a single orchestration script from the VS Code terminal: <code>.\deploy\deploy.ps1</code>.</p>
+                            <p>During the provisioning phase, the PowerShell automation will:</p>
+                            <ul>
+                                <li>Verify that your Azure CLI is authenticated and connected to the right subscription.</li>
+                                <li>Create the designated Azure Resource Group if it doesn't already exist.</li>
+                                <li>Provision an Azure Static Web App at the <strong>Standard SKU</strong> via Bicep limits or Azure CLI (note: the Standard tier is required for custom App Registrations and Role-Based Access Control integrations).</li>
+                            </ul>
+                            <p>The provisioning scripts are written to be idempotent. You can re-run them safely without breaking existing infrastructure.</p>
                         </div>
                     </section>
 
@@ -84,7 +109,9 @@
                     <section id="step-3">
                         <h2 class="text-2xl font-bold text-slate-900 mb-4 border-b border-slate-100 pb-2">4. GitHub Actions Workflow Structure</h2>
                         <div class="prose max-w-none text-slate-600">
-                            <p><em>Updated soon...</em></p>
+                            <p>After provisioning the resources, the pipeline sets up continuous deployment using GitHub Actions.</p>
+                            <p>The deploy script captures the required deployment tokens from your new Azure Static Web App and generates a `.github/workflows/` YAML file tailored for Evidence.dev.</p>
+                            <p>Once you commit and push the updated repository, GitHub Actions will take over. The workflow uses the standard SWA action to run the Evidence build step (<code>npm run build</code>) and subsequently publishes the resulting <code>build/</code> directory and any managed Azure Functions backend APIs directly to the CDN edge nodes.</p>
                         </div>
                     </section>
                     
@@ -92,7 +119,13 @@
                     <section id="step-4">
                         <h2 class="text-2xl font-bold text-slate-900 mb-4 border-b border-slate-100 pb-2">5. Securing with Microsoft Entra ID Authentication</h2>
                         <div class="prose max-w-none text-slate-600">
-                            <p><em>Updated soon...</em></p>
+                            <p>One of the primary goals of this architecture is restricting access to internal teams using Entra ID (Azure AD). The deployment orchestrator configures this in multiple layers:</p>
+                            <ul>
+                                <li><strong>App Registration:</strong> Generates a single-tenant App Registration locking the audience constraints strictly to your organization's directory.</li>
+                                <li><strong>Routing Protections:</strong> Updates the <code>staticwebapp.config.json</code> with a system-wide redirect to <code>/.auth/login/aad</code>—blocking all unauthenticated access.</li>
+                                <li><strong>Custom Roles via Backend API:</strong> Integrates a managed Azure Function (<code>api/GetRoles</code>). Upon user login, SWA sends claims to this function, which verifies the user matches your active tenant. If successful, it assigns the custom <code>evidence_user</code> role required to access the site content.</li>
+                            </ul>
+                            <p>For sensitive insights, this provides full defense-in-depth, seamlessly integrating Single Sign-On (SSO) onto an otherwise static, headless frontend.</p>
                         </div>
                     </section>
 

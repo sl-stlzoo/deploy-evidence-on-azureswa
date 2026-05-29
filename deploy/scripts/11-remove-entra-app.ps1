@@ -10,7 +10,7 @@
 # After deletion, blanks AAD_CLIENT_ID and AAD_CLIENT_SECRET in .env.
 # =============================================================================
 param(
-    [string]$EnvFile = "$PSScriptRoot\..\..env",
+    [string]$EnvFile = "$PSScriptRoot\..\.env",
     [switch]$Force
 )
 

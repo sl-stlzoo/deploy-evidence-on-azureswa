@@ -90,6 +90,12 @@
 
         // ── Data & DuckDB ────────────────────────────────────────────────────
 
+        // SQLTools - Database management and querying for VS Code
+        "mtxr.sqltools",
+        
+        // DuckDB Driver for SQLTools - Official Evidence.dev supported driver
+        "evidence.sqltools-duckdb-driver",
+
         // DBCode — full-featured database client with first-class DuckDB support.
         // Connect to .db files directly, run SQL, browse schemas, export results.
         // Works against the DuckDB files Evidence.dev creates in .evidence/cache/.

@@ -11,7 +11,7 @@
 # Idempotency: checks resource existence before attempting deletion.
 # =============================================================================
 param(
-    [string]$EnvFile           = "$PSScriptRoot\..\..env",
+    [string]$EnvFile           = "$PSScriptRoot\..\.env",
     [switch]$Force,             # Skip all confirmation prompts
     [switch]$KeepResourceGroup  # Delete SWA only, leave the resource group
 )

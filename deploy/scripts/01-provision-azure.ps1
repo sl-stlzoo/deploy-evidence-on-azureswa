@@ -13,7 +13,7 @@
 #   • SWA_DEPLOYMENT_TOKEN
 # =============================================================================
 param(
-    [string]$EnvFile = "$PSScriptRoot\..\..env"
+    [string]$EnvFile = "$PSScriptRoot\..\.env"
 )
 
 . "$PSScriptRoot\helpers.ps1"

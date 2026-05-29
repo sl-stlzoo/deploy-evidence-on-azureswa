@@ -5,7 +5,7 @@
 # Evidence.dev builds to ./build — the SWA CLI uploads that directory.
 # =============================================================================
 param(
-    [string]$EnvFile      = "$PSScriptRoot\..\..env",
+    [string]$EnvFile      = "$PSScriptRoot\..\.env",
     [switch]$SkipBuild,         # Pass -SkipBuild to redeploy without rebuilding
     [switch]$SkipDeploy,        # Pass -SkipDeploy to build only
     [string]$Environment  = 'production'

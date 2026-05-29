@@ -118,16 +118,10 @@ else
 fi
 
 # =============================================================================
-# STEP 4 — Azure CLI staticwebapps extension
+# STEP 4 — (Removed: Azure CLI staticwebapps extension is now native to Azure CLI)
 # =============================================================================
-step "Step 4 — az staticwebapps extension"
-
-if az extension show --name staticwebapps &>/dev/null; then
-  ok "staticwebapps extension already present"
-else
-  az extension add --name staticwebapps --only-show-errors
-  ok "staticwebapps extension installed"
-fi
+step "Step 4 — Azure CLI staticwebapps extension (Native)"
+ok "Azure CLI now includes staticwebapps commands natively."
 
 # =============================================================================
 # STEP 5 — Bootstrap deploy/.env from Codespace secrets
