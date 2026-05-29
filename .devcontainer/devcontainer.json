@@ -168,7 +168,7 @@
           {
             "name": "NeedfulThings-DuckDB",
             "driver": "DuckDB",
-            "database": "${containerWorkspaceFolder}/sources/needful_things/needful_things.duckdb",
+            "database": "${workspaceFolder}/sources/needful_things/needful_things.duckdb",
             "previewLimit": 50
           }
         ],
