@@ -49,11 +49,11 @@
   // postCreateCommand runs once after the container is first built.
   // It installs npm-based tools (swa CLI) and bootstraps deploy/.env
   // from any Codespace secrets that are already in the environment.
-  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "postCreateCommand": "bash .devcontainer/post-create.sh || true",
 
   // postStartCommand runs on every container start (including resume).
   // Prints a short reminder of the workflow so it's visible in the terminal.
-  "postStartCommand": "bash .devcontainer/motd.sh",
+  "postStartCommand": "bash .devcontainer/motd.sh || true",
 
   // ── Port forwarding ────────────────────────────────────────────────────────
   "forwardPorts": [
@@ -161,6 +161,20 @@
         // Show the DBCode panel in the Activity Bar on startup so it's
         // immediately accessible alongside the Explorer and Source Control panels.
         "dbcode.showActivityBarItem": true,
+
+        // ── SQLTools ───────────────────────────────────────────────────────
+        "sqltools.useNodeRuntime": true,
+        "sqltools.connections": [
+          {
+            "name": "NeedfulThings-DuckDB",
+            "driver": "DuckDB",
+            "database": "${containerWorkspaceFolder}/sources/needful_things/needful_things.duckdb",
+            "previewLimit": 50
+          }
+        ],
+        "sqltools.autoConnectTo": [
+          "NeedfulThings-DuckDB"
+        ],
 
         // ── Editor ─────────────────────────────────────────────────────────
         // Smooth font rendering — pairs well with Catppuccin on all platforms.

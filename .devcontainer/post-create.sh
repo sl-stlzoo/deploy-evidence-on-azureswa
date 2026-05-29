@@ -106,15 +106,22 @@ else
 fi
 
 # =============================================================================
-# STEP 3 — Azure Static Web Apps CLI
+# STEP 3 — System CLI & Dependencies
 # =============================================================================
-step "Step 3 — Azure Static Web Apps CLI (@azure/static-web-apps-cli)"
+step "Step 3 — Azure Static Web Apps CLI & DuckDB Async"
 
 if command -v swa &>/dev/null; then
   ok "swa CLI already installed: $(swa --version 2>/dev/null || echo 'version unknown')"
 else
   npm install -g @azure/static-web-apps-cli
   ok "swa CLI installed: $(swa --version 2>/dev/null)"
+fi
+
+if npm list -g duckdb-async@0.10.2 &>/dev/null; then
+  ok "duckdb-async@0.10.2 already installed globally."
+else
+  npm install -g duckdb-async@0.10.2
+  ok "duckdb-async@0.10.2 installed globally."
 fi
 
 # =============================================================================
