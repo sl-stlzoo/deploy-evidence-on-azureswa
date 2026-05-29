@@ -105,11 +105,22 @@ if ($swaId) {
 
 # ── Read SWA hostname ─────────────────────────────────────────────────────────
 Write-Step "Reading SWA hostname"
-$hostname = az staticwebapp show `
-    --name           $swaName `
-    --resource-group $resourceGroup `
-    --query          "defaultHostname" `
-    -o tsv 2>$null
+
+$maxRetries = 6
+$delaySeconds = 10
+$hostname = $null
+
+for ($i = 1; $i -le $maxRetries; $i++) {
+    $hostname = az staticwebapp show `
+        --name           $swaName `
+        --resource-group $resourceGroup `
+        --query          "defaultHostname" `
+        -o tsv 2>$null
+
+    if ($hostname) { break }
+    Write-Info "Waiting for hostname to populate (attempt $i/$maxRetries)..."
+    Start-Sleep -Seconds $delaySeconds
+}
 
 if (-not $hostname) {
     Write-Fail "Could not retrieve SWA hostname. Check the Azure portal."
