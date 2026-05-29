@@ -1,0 +1,15 @@
+{
+  "name": "evidence-swa-api",
+  "version": "1.0.0",
+  "description": "Azure Functions API for Evidence.dev SWA — role assignment",
+  "main": "index.js",
+  "scripts": {
+    "start": "func start",
+    "test":  "echo \"No tests defined\" && exit 0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

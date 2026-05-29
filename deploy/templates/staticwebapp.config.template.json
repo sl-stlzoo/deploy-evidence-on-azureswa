@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json.schemastore.org/staticwebapp.config.json",
+
+  "auth": {
+    "rolesSource": "/api/GetRoles",
+    "identityProviders": {
+      "azureActiveDirectory": {
+        "userDetailsClaim": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress",
+        "registration": {
+          "openIdIssuer": "https://login.microsoftonline.com/%%TENANT_ID%%/v2.0",
+          "clientIdSettingName": "AAD_CLIENT_ID",
+          "clientSecretSettingName": "AAD_CLIENT_SECRET"
+        },
+        "login": {
+          "loginParameters": [
+            "response_type=code id_token",
+            "scope=openid profile email"
+          ]
+        }
+      }
+    }
+  },
+
+  "routes": [
+    {
+      "route": "/.auth/login/github",
+      "statusCode": 404
+    },
+    {
+      "route": "/.auth/login/twitter",
+      "statusCode": 404
+    },
+    {
+      "route": "/.auth/login/facebook",
+      "statusCode": 404
+    },
+    {
+      "route": "/.auth/login/google",
+      "statusCode": 404
+    },
+    {
+      "route": "/.auth/login/apple",
+      "statusCode": 404
+    },
+    {
+      "route": "/.auth/me",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "/.auth/*",
+      "allowedRoles": ["anonymous"]
+    },
+    {
+      "route": "/api/GetRoles",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "/*",
+      "allowedRoles": ["evidence_user", "evidence_admin"]
+    }
+  ],
+
+  "responseOverrides": {
+    "401": {
+      "redirect": "/.auth/login/aad",
+      "statusCode": 302
+    },
+    "403": {
+      "redirect": "/.auth/login/aad",
+      "statusCode": 302
+    }
+  },
+
+  "globalHeaders": {
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "SAMEORIGIN",
+    "X-XSS-Protection": "1; mode=block",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Permissions-Policy": "geolocation=(), camera=(), microphone=()"
+  },
+
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": [
+      "/_evidencecdn/*",
+      "/api/*",
+      "/.auth/*",
+      "*.{css,js,mjs,json,png,jpg,jpeg,gif,ico,svg,woff,woff2,ttf,eot,map}"
+    ]
+  },
+
+  "mimeTypes": {
+    ".parquet": "application/octet-stream"
+  }
+}

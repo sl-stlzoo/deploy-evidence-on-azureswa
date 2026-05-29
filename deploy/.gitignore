@@ -1,0 +1,12 @@
+# Secrets — never commit
+.env
+*.env.local
+
+# Generated output files (auto-created by scripts)
+generated/
+
+# Azure Developer CLI local state
+.azure/
+
+# Node
+node_modules/

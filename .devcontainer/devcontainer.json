@@ -1,0 +1,191 @@
+{
+  "name": "Evidence.dev → Azure SWA",
+
+  // ── Base image ─────────────────────────────────────────────────────────────
+  // Ubuntu 24.04 LTS with common dev tooling. Explicit over the 'universal'
+  // image so the installed surface area is deliberate and auditable.
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+
+      "hostRequirements": {
+       "cpus": 4,
+       "memory": "16gb",
+       "storage": "32gb"
+      }, 
+  // ── Dev Container Features ─────────────────────────────────────────────────
+  // Each feature installs and configures one tool. Versions are pinned to a
+  // major to allow patch updates while preventing breaking changes.
+  // All features are verified in the devcontainers/features registry:
+  // https://github.com/devcontainers/features/tree/main/src
+  "features": {
+    // Node.js 20 LTS — required by Evidence.dev (≥18) and the SWA CLI.
+    // Sets up nvm so Node version can be changed per-project if needed.
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20",
+      "nvmVersion": "latest"
+    },
+
+    // PowerShell 7 — required to run deploy.ps1 and all step scripts.
+    // PS7 is cross-platform and handles both / and \ path separators on Linux.
+    "ghcr.io/devcontainers/features/powershell:1": {
+      "version": "latest"
+    },
+
+    // Azure CLI — used throughout provisioning scripts (az group, az staticwebapp, az ad …).
+    // The staticwebapps extension is pre-installed via the extensions property.
+    "ghcr.io/devcontainers/features/azure-cli:1": {
+      "version": "latest",
+      "extensions": "staticwebapps"
+    },
+
+    // GitHub CLI — used by 03-configure-swa.ps1 to register the SWA deployment
+    // token as a GitHub Actions secret. Already authenticated in Codespaces via
+    // GITHUB_TOKEN; interactive gh auth login not needed for most operations.
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "version": "latest"
+    }
+  },
+
+  // ── Lifecycle hooks ────────────────────────────────────────────────────────
+  // postCreateCommand runs once after the container is first built.
+  // It installs npm-based tools (swa CLI) and bootstraps deploy/.env
+  // from any Codespace secrets that are already in the environment.
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+
+  // postStartCommand runs on every container start (including resume).
+  // Prints a short reminder of the workflow so it's visible in the terminal.
+  "postStartCommand": "bash .devcontainer/motd.sh",
+
+  // ── Port forwarding ────────────────────────────────────────────────────────
+  "forwardPorts": [
+    3000  // Evidence.dev local dev server (npm run dev)
+  ],
+  "portsAttributes": {
+    "3000": {
+      "label": "Evidence.dev dev server",
+      "onAutoForward": "notify"
+    }
+  },
+
+  // ── VS Code customisations ─────────────────────────────────────────────────
+  "customizations": {
+    "vscode": {
+      "extensions": [
+
+        // ── Deployment & infrastructure ──────────────────────────────────────
+
+        // PowerShell language support — syntax, IntelliSense, debugger for deploy scripts.
+        "ms-vscode.powershell",
+
+        // Azure Static Web Apps — GUI for browsing SWA resources and viewing logs.
+        "ms-azuretools.vscode-azurestaticwebapps",
+
+        // Azure CLI Tools — hover docs and completions for az commands in scripts.
+        "ms-vscode.azurecli",
+
+        // GitHub Actions — syntax highlighting and validation for the generated workflow.
+        "github.vscode-github-actions",
+
+        // DotENV — syntax highlighting for .env and .env.example files.
+        "mikestead.dotenv",
+
+        // ── Data & DuckDB ────────────────────────────────────────────────────
+
+        // DBCode — full-featured database client with first-class DuckDB support.
+        // Connect to .db files directly, run SQL, browse schemas, export results.
+        // Works against the DuckDB files Evidence.dev creates in .evidence/cache/.
+        "DBCode.dbcode",
+
+        // Parquet Explorer — view .parquet files as a table directly in VS Code.
+        // Evidence.dev caches source data as parquet in .evidence/cache/; this
+        // makes those files inspectable without leaving the editor.
+        "dvirtz.parquet-viewer",
+
+        // Rainbow CSV — column-aligned colour coding for .csv and .tsv source files.
+        // Hover a value to see its column name; run SQL queries against CSVs in-place.
+        "mechatroner.rainbow-csv",
+
+        // Excel Viewer — preview .xlsx and .csv files as a sortable, filterable grid.
+        // Useful for inspecting source data files before loading them into Evidence.
+        "GrapeCity.gc-excelviewer",
+
+        // Evidence.dev — official extension. Syntax highlighting and autocomplete
+        // for Evidence component syntax inside .md report files (e.g. <LineChart>,
+        // {#each}, data binding expressions).
+        "evidence.evidence-vscode",
+
+        // ── Theme ────────────────────────────────────────────────────────────
+
+        // Catppuccin — pastel colour theme. Four flavours installed; default below
+        // is set to Mocha (dark). Switch via Command Palette → Preferences: Color Theme.
+        //   Latte   — light
+        //   Frappé  — medium dark
+        //   Macchiato — darker
+        //   Mocha   — darkest (default)
+        "Catppuccin.catppuccin-vsc",
+
+        // Catppuccin Icons — file/folder icon set tuned to match the theme palette.
+        // Replaces the default VS Code icons with Catppuccin-coloured equivalents.
+        "Catppuccin.catppuccin-vsc-icons"
+
+      ],
+      "settings": {
+
+        // ── Shell ──────────────────────────────────────────────────────────
+        // Use pwsh (PowerShell 7) as the default integrated terminal shell.
+        "terminal.integrated.defaultProfile.linux": "pwsh",
+        "terminal.integrated.profiles.linux": {
+          "pwsh": {
+            "path": "/usr/bin/pwsh",
+            "icon": "terminal-powershell"
+          }
+        },
+
+        // ── Theme ──────────────────────────────────────────────────────────
+        // Catppuccin Mocha — dark variant. Change to any of:
+        //   "Catppuccin Latte"      (light)
+        //   "Catppuccin Frappé"     (medium dark)
+        //   "Catppuccin Macchiato"  (darker)
+        //   "Catppuccin Mocha"      (darkest)
+        "workbench.colorTheme": "Catppuccin Mocha",
+        "workbench.iconTheme": "catppuccin-mocha",
+
+        // Catppuccin recommended: bracket pair colours drawn from the theme palette.
+        "editor.bracketPairColorization.enabled": true,
+
+        // ── PowerShell ─────────────────────────────────────────────────────
+        "powershell.integratedConsole.showOnStartup": false,
+        "powershell.scriptAnalysis.enable": true,
+
+        // ── DBCode ─────────────────────────────────────────────────────────
+        // Show the DBCode panel in the Activity Bar on startup so it's
+        // immediately accessible alongside the Explorer and Source Control panels.
+        "dbcode.showActivityBarItem": true,
+
+        // ── Editor ─────────────────────────────────────────────────────────
+        // Smooth font rendering — pairs well with Catppuccin on all platforms.
+        "editor.fontLigatures": true,
+
+        // ── Explorer sidebar ───────────────────────────────────────────────
+        // Hide build artefacts and generated dependencies from the file tree.
+        "files.exclude": {
+          "build": true,
+          "node_modules": true,
+          ".evidence": true
+        }
+      }
+    }
+  },
+
+  // ── Container environment ──────────────────────────────────────────────────
+  // These are non-secret defaults. Actual secrets come in via GitHub Codespace
+  // secrets and are never stored in this file.
+  "containerEnv": {
+    // Suppress the az CLI upgrade prompt in automated scripts.
+    "AZURE_CORE_NO_COLOR": "false",
+    // Tell deploy scripts this is a codespace (skips winget-based install advice).
+    "DEPLOY_ENV": "codespace"
+  },
+
+  // ── Remote user ───────────────────────────────────────────────────────────
+  "remoteUser": "vscode"
+}
